@@ -4,27 +4,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Saving your Location</title>
 </head>
 <body>
-    <script>
-        if ("geolocation" in navigator) {
-            console.log('geolocation available');
-            //https://developer.mozilla.org/en-US/docs/Web/API/Geolocation
-            navigator.geolocation.getCurrentPosition((position) => {
-                console.log(position);
-                const lat = position.coords.latitude;
-                const lng = position.coords.longitude;
-
-                document.getElementById('latitude').textContent = lat;
-                document.getElementById('longitude').textContent = lng;
-            });
-        } else {
-            console.log('geolocation not available');
-        }
-    </script>
-    
+    <h1>Data Selfie App</h1>
+    <h2>Your current computer location.....</h2>
     <p>Latitude : <span id="latitude"></span>&deg;</p>
     <p>Longitude : <span id="longitude"></span>&deg;</p>
+    <button type="submit" id="submitLocation">Get Location</button>
 </body>
+<script>
+    if ("geolocation" in navigator) {
+        console.log('geolocation available');
+        //https://developer.mozilla.org/en-US/docs/Web/API/Geolocation
+        const getLocation = () => navigator.geolocation.getCurrentPosition( async function(position) {
+            const lat = position.coords.latitude;
+            const lng = position.coords.longitude;
+
+            document.getElementById('latitude').textContent = lat;
+            document.getElementById('longitude').textContent = lng;
+
+            const data = { lat, lng };
+            const response = await fetch('/api',  {
+                method: 'POST',
+                headers: {
+                'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data),
+            });
+            const responseJson = await response.json();
+            console.log(responseJson);
+        });
+
+        document.getElementById('submitLocation').onclick = (e) => {
+            getLocation();
+        };
+    } else {
+        console.log('geolocation not available');
+    }
+</script>
 </html>
