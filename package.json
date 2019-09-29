@@ -1,0 +1,14 @@
+{
+  "name": "data-selfie-app",
+  "version": "1.0.0",
+  "description": "This is the data selfie app by Joey Lee",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Wilbert Tanoto",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
