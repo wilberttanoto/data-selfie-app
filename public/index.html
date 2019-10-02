@@ -11,6 +11,7 @@
     <h2>Your current computer location.....</h2>
     <p>Latitude : <span id="latitude"></span>&deg;</p>
     <p>Longitude : <span id="longitude"></span>&deg;</p>
+    <input type="text" id="userName" required></input>
     <button type="submit" id="submitLocation">Submit Location  </button>
 </body>
 <script>
@@ -20,11 +21,13 @@
         const getLocation = () => navigator.geolocation.getCurrentPosition( async function(position) {
             const lat = position.coords.latitude;
             const lng = position.coords.longitude;
+            let user = document.getElementById('userName').value;
 
             document.getElementById('latitude').textContent = lat;
             document.getElementById('longitude').textContent = lng;
 
-            const data = { lat, lng };
+            const data = { lat, lng, user };
+            console.log(data);
             const response = await fetch('/api',  {
                 method: 'POST',
                 headers: {

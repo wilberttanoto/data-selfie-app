@@ -9,17 +9,22 @@ app.use(express.json());
 const database = new Datastore('database.db');
 database.loadDatabase();
 
+app.get('/api/getall', (request, response) => {
+    database.find({}, (err, data) => {
+        if (err) {
+            response.end();
+            return;
+        }
+        response.json(data);
+    });
+});
+
 // POST method route
-app.post('/api', function (request, response) {
+app.post('/api', (request, response) => {
     const data = request.body;
     const timestamp = Date.now();
     data.timestamp = timestamp;
 
     database.insert(data);
-    response.json({
-        status: 'success',
-        timestamp: timestamp,
-        lat: data.lat,
-        long: data.lng,
-    })
+    response.json(data);
 });

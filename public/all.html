@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Fetching All Data (GET) in database</h1>
+    <table id="table">
+        <tr>
+            <td>id</td>
+            <td>User</td>
+            <td>Longitude</td>
+            <td>Latitude</td>
+        </tr>
+
+    </table>
+</body>
+<style>
+    table {
+    border-collapse: collapse;
+    }
+
+    table, th, td {
+    border: 1px solid black;
+    }
+</style>
+<script>
+    const getData = async () => {
+        const response = await fetch('/api/getall');
+        const datas = await response.json();
+        const table = document.getElementById('table');
+
+        datas.map(data => {
+            let tableRow = document.createElement('tr');
+            
+            let cellID = document.createElement('td');
+            cellID.innerHTML = data['_id'];
+            tableRow.append(cellID);
+
+            let cellUser = document.createElement('td');
+            cellUser.innerHTML = data['user'];
+            tableRow.append(cellUser);
+
+            let cellLat = document.createElement('td');
+            cellLat.innerHTML = data['lat'];
+            tableRow.append(cellLat);
+
+            let cellLng = document.createElement('td');
+            cellLng.innerHTML = data['lng'];
+            tableRow.append(cellLng);
+
+            table.append(tableRow);
+        });
+
+        document.body.append(table); 
+    } 
+
+    getData();
+</script>
+</html>
